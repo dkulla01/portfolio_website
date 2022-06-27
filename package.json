@@ -1,0 +1,24 @@
+{
+  "name": "portfolio_website",
+  "version": "1.0.0",
+  "description": "a website to show off some projects of mine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkulla01/portfolio_website.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dkulla01/portfolio_website/issues"
+  },
+  "homepage": "https://github.com/dkulla01/portfolio_website#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.1"
+  }
+}
