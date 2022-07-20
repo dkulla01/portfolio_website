@@ -4,7 +4,7 @@
   "description": "a website to show off some projects of mine",
   "main": "index.js",
   "scripts": {
-    "start": "eleventy --serve & npx tailwindcss -i src/css/tailwind.css -c src/css/tailwind.config.js -o public/css/style.css --watch",
+    "start": "DEBUG=Eleventy* eleventy --serve & npx tailwindcss -i src/css/tailwind.css -c src/css/tailwind.config.js -o public/css/style.css --watch",
     "build": "ELEVENTY_PRODUCTION=true eleventy && NODE_ENV=production npx tailwindcss -i src/css/tailwind.css -c src/css/tailwind.config.js -o public/css/style.css --minify"
   },
   "repository": {

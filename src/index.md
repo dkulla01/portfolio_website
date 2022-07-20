@@ -1,6 +1,6 @@
 ---
 title: dankulla.com
-layout: page.njk
+layout: base.njk
 templateEngineOverride: njk, md
 ---
 
