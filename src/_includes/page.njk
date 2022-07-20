@@ -1,12 +1,16 @@
 ---
 layout: base.njk
 ---
-
-<header>
-    <h1>{{ title }}</h1>
-</header>
 <main>
-    <article>
-        {{ content | safe}}
-    </article>
+  <aside>
+    <div class="w-60 h-full shadow-md bg-white px-1 absolute">
+      <div id="aside-photo"></div>
+      {% include "nav.njk" %}
+    </div>
+  </aside>
+  <article>
+    <div class="content">
+      {{ content | safe}}
+    </div>
+  </article>
 </main>

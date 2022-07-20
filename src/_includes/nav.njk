@@ -1,0 +1,22 @@
+---
+placeholder: I am a Placeholder
+---
+
+<nav>
+  <div>
+    <h1>{{placeholder}}</h1>
+  </div>
+  <ul class="relative">
+
+    {% for navItem in navItems %}
+      <li class="relative">
+        <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:rext-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
+          href="{{ navItem.link }}">{{ navItem.text }}</a>
+      </li>
+    {% endfor %}
+    <li class="relative">
+      <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:rext-gray-900 hover:bg-gray-100 transition duration-300 ease-in-out"
+        href="{{ meta.url }}">{{ meta.url }}</a>
+    </li>
+  </ul>
+</nav>
