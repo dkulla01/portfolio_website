@@ -3,9 +3,10 @@ const Image = require("@11ty/eleventy-img");
 
 async function imageShortcode(src, attributes) {
   let metadata = await Image(src, {
-    widths: [300, 600],
+    widths: [300, 600, null],
     formats: ['jpeg'],
-    outputDir: './public/img/'
+    outputDir: './public/images/',
+    urlPath: 'images/'
   });
 
   let imageAttributes = {
@@ -23,6 +24,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addWatchTarget('./src/css/tailwind.config.js');
   eleventyConfig.addWatchTarget('./src/css/tailwind.css');
   eleventyConfig.addPassthroughCopy({'./_tmp/style.css': './style.css'});
+  eleventyConfig.addPassthroughCopy("./src/images")
   eleventyConfig.addNunjucksAsyncShortcode("image", imageShortcode);
 
   eleventyConfig.addTransform('htmlmin', function(content, outputPath) {
