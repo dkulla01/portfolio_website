@@ -1,10 +1,6 @@
 {
   "navItems": [
     {
-      "text": "dankulla.com",
-      "link": "/"
-    },
-    {
       "text": "pages",
       "link": "/pages"
     },

@@ -1,7 +1,7 @@
 const htmlmin = require('html-minifier');
 const Image = require("@11ty/eleventy-img");
 
-async function imageShortcode(src, alt, sizes) {
+async function imageShortcode(src, attributes) {
   let metadata = await Image(src, {
     widths: [300, 600],
     formats: ['jpeg'],
@@ -9,11 +9,11 @@ async function imageShortcode(src, alt, sizes) {
   });
 
   let imageAttributes = {
-    alt,
-    sizes,
+    ...attributes,
     loading: "lazy",
     decoding: "async"
-  }
+  };
+
   return Image.generateHTML(metadata, imageAttributes, {
     whitespaceMode: "inline"
   });
