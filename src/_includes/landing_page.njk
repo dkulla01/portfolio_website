@@ -1,0 +1,19 @@
+---
+layout: base.njk
+featured_image:
+  path: "./src/images/questionmark_placeholder.jpg"
+  alt: "This is a placeholder for now"
+  sizes: "600"
+---
+
+
+<article>
+  <div class="my-20 flex flex-row items-center justify-evenly">
+    <div class="w-2/3 px-20 text-center align-middle">
+      {{ content | safe}}
+    </div>
+    <div class="w-1/3 bg-white">
+      {% image featured_image.path, { alt: featured_image.alt, class: "rounded-full", sizes: featured_image.sizes }%}
+    </div>
+  </div>
+</article>

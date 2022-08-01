@@ -5,6 +5,9 @@ module.exports = {
     extend: {
       colors: {
         change: 'transparent',
+      },
+      maxWidth: {
+        'icon': '64px'
       }
     }
   },

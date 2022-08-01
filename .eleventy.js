@@ -6,7 +6,7 @@ async function imageShortcode(src, attributes) {
     widths: [300, 600, null],
     formats: ['jpeg'],
     outputDir: './public/images/',
-    urlPath: 'images/'
+    urlPath: '/images/'
   });
 
   let imageAttributes = {
