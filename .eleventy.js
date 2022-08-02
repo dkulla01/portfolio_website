@@ -26,6 +26,17 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({'./_tmp/style.css': './style.css'});
   eleventyConfig.addPassthroughCopy("./src/images")
   eleventyConfig.addNunjucksAsyncShortcode("image", imageShortcode);
+  let sslKeyPath = process.env.SSL_KEY_PATH;
+  let sslCertPath = process.env.SSL_CERT_PATH;
+  if (sslKeyPath && sslCertPath) {
+    console.log(`using ssl key at ${sslKeyPath} and ssl cert at ${sslCertPath}.`);
+    eleventyConfig.browserSyncConfig = {
+      https: {
+        key: "/Users/dan/.localhost-ssl/dankulla.com.key",
+        cert: "/Users/dan/.localhost-ssl/localhost.crt"
+      }
+    }
+  }
 
   eleventyConfig.addTransform('htmlmin', function(content, outputPath) {
     if (
