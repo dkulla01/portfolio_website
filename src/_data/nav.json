@@ -1,0 +1,12 @@
+{
+  "navItems": [
+    {
+      "text": "pages",
+      "link": "/pages"
+    },
+    {
+      "text": "contact",
+      "link": "/contact"
+    }
+  ]
+}
