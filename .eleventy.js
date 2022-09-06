@@ -25,6 +25,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addWatchTarget('./src/css/tailwind.css');
   eleventyConfig.addPassthroughCopy({'./_tmp/style.css': './style.css'});
   eleventyConfig.addPassthroughCopy("./src/images")
+  eleventyConfig.addPassthroughCopy("./_redirects")
   eleventyConfig.addNunjucksAsyncShortcode("image", imageShortcode);
   let sslKeyPath = process.env.SSL_KEY_PATH;
   let sslCertPath = process.env.SSL_CERT_PATH;
