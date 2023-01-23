@@ -30,7 +30,7 @@ featured_image:
     <p class="my-3 text-justify">{{post.data.description}}</p>
   </div>
   <div class="w-64 md:w-1/3">
-    {% image "./src/images/build_a_bike_wheel.jpeg", {alt: "welding is a group effort", sizes: 600} %}
+    {% image post.data.featured_image.path, {alt: post.data.featured_image.alt, sizes: 600} %}
   </div>
 </a>
   {% endif %}

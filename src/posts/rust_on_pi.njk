@@ -26,7 +26,7 @@ I've been teaching myself the rust programming language for a while. It is a fun
 </p>
 
 <p class="indent-8 md:mt-4">
-Also new to me was the process of building the project to run on a machine with a different architecture. My laptop is Macbook with an x86-64 Intel CPU, while the Raspberry Pi I planned to run the project from has a 64-bit ARM CPU (earlier models have a 32-bit CPU). Using `cargo build --release` would build a binary that ran fine on my laptop, but was totally incompatible with the rpi, and targeting the ARM architecture with 
+Also new to me was the process of building the project to run on a machine with a different architecture. My laptop is MacBook with an x86-64 Intel CPU, while the Raspberry Pi I planned to run the project from has a 64-bit ARM CPU (earlier models have a 32-bit CPU). Using `cargo build --release` would build a binary that ran fine on my laptop, but was totally incompatible with the rpi, and targeting the ARM architecture with 
 </p>
 
 {% highlight "shell" %}
@@ -34,14 +34,14 @@ cargo build --target aarch64-unknown-linux-gnu
 {% endhighlight%}
 
 <p>
-would fail because of incompatablities between homebrew-installed OpenSSL on my mac and apt installed libssl-dev installed on the linux rpi.
+would fail because of incompatibilities between homebrew-installed OpenSSL on my mac and apt installed libssl-dev installed on the linux rpi.
 </p>
 <p class="indent-8 md:mt-4">
 Enter <a class="underline md:hover:no-underline" href="https://github.com/cross-rs/cross"><span class="font-mono text-base">cross</span></a>, a project that cross-compiles rust projects between different architectures. Under the hood, cross uses docker images built with all of the libraries, dependencies, and missing pieces needed to cross compile rust projects. And since all of these components live in the docker images, they don't tangle anything up in your dev environment.
 </p>
 
 <p class="indent-8 md:mt-8">
-<a class="underline md:hover:no-underline" href="https://github.com/cross-rs/cross/wiki/Getting-Started"><span class="font-mono text-base">cross</span> has great documetntation on getting started</a>, and once installed, cross compiling is as simple as invoking <span class="font-mono text-base">cross</span> where you'd normally use <span class="font-mono text-base">cargo</span>. Assuming you have docker and rust (and its toolchain) installed, all you need is:
+<a class="underline md:hover:no-underline" href="https://github.com/cross-rs/cross/wiki/Getting-Started"><span class="font-mono text-base">cross</span> has great documentation on getting started</a>, and once installed, cross compiling is as simple as invoking <span class="font-mono text-base">cross</span> where you'd normally use <span class="font-mono text-base">cargo</span>. Assuming you have docker and rust (and its toolchain) installed, all you need is:
 </p>
 
 {% highlight "shell" %}
