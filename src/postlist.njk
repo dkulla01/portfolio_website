@@ -1,0 +1,37 @@
+---
+title: dankulla.com | posts
+permalink: /posts/
+layout: listing_page.njk
+title_heading: Posts
+title_text: Here's a sampling of things I've worked on!
+featured_image:
+  path: ./src/images/woodshop_boxes.jpeg
+  alt: Posing in some boxes that I made
+  sizes: "600"
+---
+
+{% set postslist = collections.posts %}
+
+{% for post in postslist %}
+  {% if loop.index0 % 2 === 0 %}
+<a href={{post.url | url}} class="flex flex-col md:flex-row-reverse items-center md:justify-evenly my-10 rounded-sm md:rounded-md hover:bg-purple-100 transition duration-300 ease-in-out">
+  <div class="md:w-2/3 md:px-10 text-center md:align-middle">
+    <h2 class="text-xl my-3">{{post.data.title}}</h2>
+    <p class="my-3 text-justify"> {{ post.data.description }}</p>
+  </div>
+  <div class="w-64 md:w-1/3">
+    {% image "./src/images/welding_is_a_group_effort.jpeg", {alt: "welding is a group effort", sizes: 600} %}
+  </div>
+</a>
+  {% else %}
+ <a href={{post.url | url}} class="flex flex-col md:flex-row items-center md:justify-evenly my-10 rounded-sm md:rounded-md hover:bg-purple-100 transition duration-300 ease-in-out">
+  <div class="md:w-2/3 md:px-10 text-center md:align-middle">
+    <h2 class="text-xl my-3">{{post.data.title}}</h2>
+    <p class="my-3 text-justify">{{post.data.description}}</p>
+  </div>
+  <div class="w-64 md:w-1/3">
+    {% image "./src/images/build_a_bike_wheel.jpeg", {alt: "welding is a group effort", sizes: 600} %}
+  </div>
+</a>
+  {% endif %}
+{% endfor %}
