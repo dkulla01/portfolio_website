@@ -4,7 +4,7 @@ const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 
 async function imageShortcode(src, attributes) {
   let metadata = await Image(src, {
-    widths: [300, 600, null],
+    widths: [300, 600, 900, null],
     formats: ['jpeg'],
     outputDir: './public/images/',
     urlPath: '/images/'
