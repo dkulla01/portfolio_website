@@ -1,0 +1,70 @@
+---
+  title: rust on raspbian
+  tags:
+    - raspberry pi
+    - rust
+  layout: landing_page.njk
+  featured_image:
+    path: ./src/images/block_party_dan_close.jpeg
+    alt: The sensation of cross compilation
+    sizes: "600"
+---
+# Cross Compiling Rust for Raspbian
+
+I've been teaching myself the rust programming language for a while. It is a fun language with powerful tools to enforce memory safety; the compiler will refuse to build your project if you try to give multiple parts of your project ownership of the same objects. This paradigm is different from other languages I've worked with, which has forced me to think about programming in a new way.
+
+Also new to me was the process of building the project to run on a machine with a different architecture. My laptop is Macbook with an x86-64 Intel CPU, while the Raspberry Pi I planned to run the project from has a 64-bit ARM CPU (earlier models have a 32-bit CPU). Using `cargo build --release` would build a binary that ran fine on my laptop, but was totally incompatible with the rpi, and targeting the ARM architecture with 
+
+```shell
+cargo build --target aarch64-unknown-linux-gnu
+```
+would fail because of incompatablities between homebrew-installed OpenSSL on my mac and apt installed libssl-dev installed on the linux rpi.
+
+Enter [`cross`](https://github.com/cross-rs/cross): a project that cross-compiles rust projects between different architectures. Under the hood, cross uses docker images built with all of the libraries, dependencies, and missing pieces needed to cross compile rust projects. And since all of these components live in the docker images, they don't tangle anything up in your dev environment.
+
+[`cross` has great documetntation on getting started](https://github.com/cross-rs/cross/wiki/Getting-Started), and once installed, cross compiling is as simple as invoking `cross` where you'd normally use `cargo. Assuming you have docker and rust (and its toolchain) installed, all you need is:
+
+```shell
+# create a new rust project
+cargo new myproject && cd myproject
+
+# install cross
+cargo install cross
+
+#compile a binary for your target architecture
+cross build --target aarch64-unknown-linux-gnu --release
+```
+
+Once the build has finished, you'll have a cross-compiled binary in your project's `target` directory:
+
+```shell
+ls myproject/target/aarch64-unknown-linux-gnu/release
+#build       deps        examples    incremental myproject   myproject.d
+```
+
+
+
+## Building a Docker Image
+
+With our cross-compiled binary in hand, building a docker image for our raspberry pi is straightforward.
+
+```dockerfile
+FROM debian:buster-slim # or whatever base image you want to use
+
+COPY ["target/aarch64-unknown-linux-gnu/release/myproject" "./"]
+
+CMD ["./myproject"]
+```
+
+Next, build the image:
+
+```shell
+docker build --platform linux/arm64/v8 -t myproject:mytag -f path/to/Dockerfile .
+```
+
+Finally, the image as a `tar` and copy it to your raspberry pi:
+
+```shell
+docker save myproject:mytag > myproject.tar
+scp myproject.tar user@my-rpi:~/
+```
