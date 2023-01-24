@@ -21,7 +21,7 @@ async function imageShortcode(src, attributes) {
   });
 }
 
-module.exports = function (eleventyConfig) {
+module.exports = function(eleventyConfig) {
   eleventyConfig.addWatchTarget('./src/css/tailwind.config.js');
   eleventyConfig.addWatchTarget('./src/css/tailwind.css');
   eleventyConfig.addPassthroughCopy({ './_tmp/style.css': './style.css' });
