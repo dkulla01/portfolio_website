@@ -5,7 +5,7 @@
   "main": "index.js",
   "engines": {
     "npm": ">=8.0.0",
-    "node": ">=18.0.0"
+    "node": ">=17.0.0"
   },
   "scripts": {
     "start": "DEBUG=Eleventy* eleventy --serve & npx tailwindcss -i src/css/tailwind.css -c src/css/tailwind.config.js -o public/css/style.css --watch",
