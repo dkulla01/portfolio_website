@@ -1,50 +1,63 @@
 ---
 title: dankulla.com | what I do
 permalink: /what-i-do/
-layout: listing_page.njk
-title_heading: What I Do
-title_text: I'm Dan! I like working on computers and building things out of wood and metal!
+layout: base.njk
 featured_image:
   path: ./src/images/woodshop_boxes.jpeg
   alt: Posing in some boxes that I made
   sizes: "600"
 ---
-<div class="flex flex-col md:flex-row-reverse items-center md:justify-evenly my-10">
-  <div class="md:w-2/3 md:px-10 text-center md:align-middle">
-    <h2 class="text-xl my-3">Welding at Artisan's Asylum</h2>
-    <p class="my-3 text-justify">I've been helping get the Metal Shop at Artisan's Asylum ready to go. I've learned to weld some things along the way, and I've help build several pieces of furniture for the welding shop, like this angle grinder storage rack.</p>
-  </div>
-  <div class="w-64 md:w-1/3">
-    {% image "./src/images/welding_is_a_group_effort.jpeg", {alt: "welding is a group effort", sizes: 600} %}
-  </div>
-</div>
 
-<div class="flex flex-col md:flex-row items-center md:justify-evenly my-10">
-  <div class="md:w-2/3 md:px-10 text-center md:align-middle">
-    <h2 class="text-xl my-3">Working on Bicycles</h2>
-    <p class="my-3 text-justify">I've ridden, commuted on, and fixed bikes my whole life. And when I couldn't find a bike with all of the features I wanted, I built one up myself. Here is the internally-geared wheel I built for my bicycle project.</p>
+<article>
+  <div class="md:my-20 px-20 flex flex-col-reverse md:flex-row md:text-left text-center items-center md:justify-evenly">
+    <div class="md:w-2/3 w-64 md:pr-20 flex flex-col  justify-items-center">
+      <h1 class="text-2xl my-3">What I Do</h1>
+      <p class="my-3 text-lg">I'm Dan! I like working on computers and building things out of wood and metal! Take a look at <a class="underline md:hover:no-underline"href="{{meta.url}}/posts">some of the projects I've gotten myself into!</a>
+      </p>
+    </div>
+    <div class="md:w-1/3 w-64">
+      {% image featured_image.path, { alt: featured_image.alt, class: "rounded-full", sizes: featured_image.sizes }%}
+    </div>
   </div>
-  <div class="w-64 md:w-1/3">
-    {% image "./src/images/build_a_bike_wheel.jpeg", {alt: "welding is a group effort", sizes: 600} %}
-  </div>
-</div>
+  <div class="px-20">
+    <div class="flex flex-col md:flex-row-reverse items-center md:justify-evenly my-10">
+      <div class="md:w-2/3 md:px-10 text-center md:align-middle">
+        <h2 class="text-xl my-3">Welding at Artisan's Asylum</h2>
+        <p class="my-3 text-justify">I've been helping get the Metal Shop at Artisan's Asylum ready to go. I've learned to weld some things along the way, and I've help build several pieces of furniture for the welding shop, like this angle grinder storage rack.</p>
+      </div>
+      <div class="w-64 md:w-1/3">
+        {% image "./src/images/welding_is_a_group_effort.jpeg", {alt: "welding is a group effort", sizes: 600} %}
+      </div>
+    </div>
 
-<div class="flex flex-col md:flex-row-reverse items-center md:justify-evenly my-10">
-  <div class="md:w-2/3 md:px-10 text-center md:align-middle">
-    <h2 class="text-xl my-3">Working with Technology</h2>
-    <p class="my-3 text-justify">Computers fascinated me from a young age. Taking computer science classes in college fed that intrigue and introduced me to the vast expanse of problems that computers can help solve. I've worked as a professional software engineer for nearly a decade, and much my work has focused on data-intensive systems and database infrastructure.</p>
-  </div>
-  <div class="w-64 md:w-1/3">
-    {% image "./src/images/dan_caricature.jpeg", {alt: "dan_caricature", sizes: 600} %}
-  </div>
-</div>
+    <div class="flex flex-col md:flex-row items-center md:justify-evenly my-10">
+      <div class="md:w-2/3 md:px-10 text-center md:align-middle">
+        <h2 class="text-xl my-3">Working on Bicycles</h2>
+        <p class="my-3 text-justify">I've ridden, commuted on, and fixed bikes my whole life. And when I couldn't find a bike with all of the features I wanted, I built one up myself. Here is the internally-geared wheel I built for my bicycle project.</p>
+      </div>
+      <div class="w-64 md:w-1/3">
+        {% image "./src/images/build_a_bike_wheel.jpeg", {alt: "welding is a group effort", sizes: 600} %}
+      </div>
+    </div>
 
-<div class="flex flex-col md:flex-row items-center md:justify-evenly my-10">
-  <div class="md:w-2/3 md:px-10 text-center md:align-middle">
-    <h2 class="text-xl my-3">Hair Experiments</h2>
-    <p class="my-3 text-justify">Covid forced babrbershops to close, but my hair still continued to grow. I watched a variety of tutorials on how to cut my increasingly long and unkempt hair, but In the interest of distracting people from unevenness in my first self-haircuts, I decided to bleach my hair blonde. I was pleasantly surprised by the results, so I continued bleaching my hair since then.</p>
+    <div class="flex flex-col md:flex-row-reverse items-center md:justify-evenly my-10">
+      <div class="md:w-2/3 md:px-10 text-center md:align-middle">
+        <h2 class="text-xl my-3">Working with Technology</h2>
+        <p class="my-3 text-justify">Computers fascinated me from a young age. Taking computer science classes in college fed that intrigue and introduced me to the vast expanse of problems that computers can help solve. I've worked as a professional software engineer for nearly a decade, and much my work has focused on data-intensive systems and database infrastructure.</p>
+      </div>
+      <div class="w-64 md:w-1/3">
+        {% image "./src/images/dan_caricature.jpeg", {alt: "dan_caricature", sizes: 600} %}
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row items-center md:justify-evenly my-10">
+      <div class="md:w-2/3 md:px-10 text-center md:align-middle">
+        <h2 class="text-xl my-3">Hair Experiments</h2>
+        <p class="my-3 text-justify">Covid forced babrbershops to close, but my hair still continued to grow. I watched a variety of tutorials on how to cut my increasingly long and unkempt hair, but In the interest of distracting people from unevenness in my first self-haircuts, I decided to bleach my hair blonde. I was pleasantly surprised by the results, so I continued bleaching my hair since then.</p>
+      </div>
+      <div class="w-64 md:w-1/3">
+        {% image "./src/images/bleach_that_hair.jpeg", {alt: "hair bleach takes time", sizes: 600} %}
+      </div>
+    </div>
   </div>
-  <div class="w-64 md:w-1/3">
-    {% image "./src/images/bleach_that_hair.jpeg", {alt: "hair bleach takes time", sizes: 600} %}
-  </div>
-</div>
+</article>

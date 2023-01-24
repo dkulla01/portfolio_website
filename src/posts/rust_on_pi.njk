@@ -1,0 +1,94 @@
+---
+  title: Building Rust for Raspbian
+  description: cross-rs takes the pain out of cross-compiling rust projects for different architectures, which makes it easy to run rust projects on a raspberry pi.
+  tags:
+    - raspberry pi
+    - rust
+  layout: post.njk
+  featured_image:
+    path: ./src/images/ferris_pi.jpg
+    alt: The sensation of cross compilation
+    sizes: "600"
+---
+<div class="flex flex-col md:flex-row items-center md: justify-evenly">
+  <h1 class="md:w-1/3 text-2xl md:mb-8">Cross Compiling Rust for Raspbian</h1>
+
+  <div class="md:w-2/3">
+  {% image featured_image.path, {
+    alt: featured_image.alt,
+    sizes: featured_image.sizes
+  }%}
+  </div>
+</div>
+
+<p class="indent-8 md:mt-4">
+I've been teaching myself the rust programming language for a while. It is a fun language with powerful tools to enforce memory safety; the compiler will refuse to build your project if you try to give multiple parts of your project ownership of the same object. This paradigm is different from other languages I've worked with, which has forced me to think about programming in a new way.
+</p>
+
+<p class="indent-8 md:mt-4">
+Also new to me was the process of building the project to run on a machine with a different architecture. My laptop is MacBook with an x86-64 Intel CPU, while the Raspberry Pi I planned to run the project from has a 64-bit ARM CPU (earlier models have a 32-bit CPU). Using `cargo build --release` would build a binary that ran fine on my laptop, but was totally incompatible with the rpi, and targeting the ARM architecture with 
+</p>
+
+{% highlight "shell" %}
+cargo build --target aarch64-unknown-linux-gnu
+{% endhighlight%}
+
+<p>
+would fail because of incompatibilities between homebrew-installed OpenSSL on my mac and apt installed libssl-dev installed on the linux rpi.
+</p>
+<p class="indent-8 md:mt-4">
+Enter <a class="underline md:hover:no-underline" href="https://github.com/cross-rs/cross"><span class="font-mono text-base">cross</span></a>, a project that cross-compiles rust projects between different architectures. Under the hood, cross uses docker images built with all of the libraries, dependencies, and missing pieces needed to cross compile rust projects. And since all of these components live in the docker images, they don't tangle anything up in your dev environment.
+</p>
+
+<p class="indent-8 md:mt-8">
+<a class="underline md:hover:no-underline" href="https://github.com/cross-rs/cross/wiki/Getting-Started"><span class="font-mono text-base">cross</span> has great documentation on getting started</a>, and once installed, cross compiling is as simple as invoking <span class="font-mono text-base">cross</span> where you'd normally use <span class="font-mono text-base">cargo</span>. Assuming you have docker and rust (and its toolchain) installed, all you need is:
+</p>
+
+{% highlight "shell" %}
+# create a new rust project
+cargo new myproject && cd myproject
+
+# install cross
+cargo install cross
+
+#compile a binary for your target architecture
+cross build --target aarch64-unknown-linux-gnu --release
+{% endhighlight %}
+
+<p>
+Once the build has finished, you'll have a cross-compiled binary in your project's <span class="font-mono text-base">target</span> directory:
+</p>
+
+{% highlight "shell" %}
+ls myproject/target/aarch64-unknown-linux-gnu/release
+#build       deps        examples    incremental myproject   myproject.d
+{% endhighlight %}
+
+
+
+<h1 class="text-xl md:mb-8">Building a Docker Image</h1>
+
+<p>
+With our cross-compiled binary in hand, building a docker image for our raspberry pi is straightforward.
+</p>
+
+{% highlight "dockerfile"%}
+FROM debian:buster-slim # or whatever base image you want to use
+
+COPY ["target/aarch64-unknown-linux-gnu/release/myproject" "./"]
+
+CMD ["./myproject"]
+{% endhighlight %}
+
+Next, build the image:
+
+{% highlight "shell" %}
+docker build --platform linux/arm64/v8 -t myproject:mytag -f path/to/Dockerfile .
+{% endhighlight %}
+
+Finally, the image as a `tar` and copy it to your raspberry pi:
+
+{% highlight "shell" %}
+docker save myproject:mytag > myproject.tar
+scp myproject.tar user@my-rpi:~/
+{% endhighlight%}
