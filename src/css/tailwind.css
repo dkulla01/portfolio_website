@@ -6,4 +6,12 @@
   .change {
     color: transparent;
   }
+
+  .new-post-paragraph {
+    @apply indent-8 md:mt-4;
+  }
+
+  .standard-link-styling {
+    @apply underline md:hover:no-underline;
+  }
 }
