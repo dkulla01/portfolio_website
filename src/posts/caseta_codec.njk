@@ -49,7 +49,7 @@ We just need to figure out how to decode these broadcasts first.
 I have <a href="https://homebridge.io/" class="standard-link-styling">Homebridge</a> running on a raspberry pi. <a href="https://github.com/rnilssoncx/homebridge-pico" class="standard-link-styling">And Homebridge has a plugin for Pico remotes.</a> This project was an invaluable resource as I tried to parse through the contents of the Caseta broadcasts. <a class="standard-link-styling" href="https://github.com/rnilssoncx/homebridge-pico/blob/9cecce29f2b6ce072d5cc3c140eae896dfce0736/caseta.js#L46-L67">This snippet in particular</a> shows the types of messages that the homebridge-pico plugin expects to see and the way it responds to them. To simplify my investigation here, I added a local dns entry to point <span class="font-mono">caseta.run</span> at the caseta hub, and then I started to poke at it with <span class="font-mono">nc</span>.
 </p>
 
-{% highlight "shell-session" %}
+{% highlight "shell" %}
 ➜  ~ nc -vz caseta.run 23
 Connection to caseta.run port 23 [tcp/telnet] succeeded!
 {% endhighlight %}
