@@ -1,0 +1,114 @@
+---
+title: "Building a Codec for Lutron Caseta: Understanding the Protocol"
+description: Lutron's Caseta platform broadcasts messages when someone interacts with it. Can we listen to them and understand what they mean?
+date: 2023-01-27
+tags:
+  - caseta
+  - rust
+layout: post.njk
+featured_image:
+  path: ./src/images/caseta_and_pi.jpeg
+  alt: A Caseta Remote and the Raspberry Pi listening for it
+  sizes: "600"
+---
+
+<div class="flex flex-col md:flex-row items-center md: justify-evenly">
+  <h1 class="md:w-1/3 text-2xl md:mb-8">{{ title }}</h1>
+
+  <div class="md:w-2/3">
+  {% image featured_image.path, {
+    alt: featured_image.alt,
+    sizes: featured_image.sizes
+  }%}
+  </div>
+</div>
+
+<h2 class="text-2xl md:mt-4">What are we doing?</h2>
+<p class="new-post-paragraph">
+One of my goals when setting out to learn Rust was to find a project small enough to be manageable in a new-to-me language while still being useful and nontrivial. As I've grown my collection of smart home devices, I've also grown tired of needing to get out my phone to change light scenes. And when I've had people over, none of them could change the scenes themselves unless they downloaded the appropriate apps, connected their phones to my wi-fi, and had me grant them the appropriate permissions from my phone.
+</p>
+
+<p class="italic new-post-paragraph">
+Not great.
+</p>
+
+<p class="new-post-paragraph">
+I wanted a familiar and intuitive way to change the lights. When people see a light switch with a dimmer, they instantly understand how to use it; spin the knob or slide the slider, and the lights change.
+</p>
+
+<p class="new-post-paragraph">
+Lutron's Caseta line of products offers a clean, familiar-looking interface to convert home electrical circuits into smart home accessories. And the Caseta Hub PRO (but sadly not the standard hub) offers a telnet interface that broadcasts button presses and releases that come from caseta devices. And the Lutron Caseta ecosystem offers Pico remotes to allow you to add a switch where there wasn't one before. This combination of intuitive remote controls and a broadcast of remote interactions was perfect for this project.
+</p>
+
+<p class="italic new-post-paragraph">
+We just need to figure out how to decode these broadcasts first.
+</p>
+
+<h2 class="text-2xl md:mt-4">Decoding the Protocol</h2>
+
+<p class="new-post-paragraph">
+I have <a href="https://homebridge.io/" class="standard-link-styling">Homebridge</a> running on a raspberry pi. <a href="https://github.com/rnilssoncx/homebridge-pico" class="standard-link-styling">And Homebridge has a plugin for Pico remotes.</a> This project was an invaluable resource as I tried to parse through the contents of the Caseta broadcasts. <a class="standard-link-styling" href="https://github.com/rnilssoncx/homebridge-pico/blob/9cecce29f2b6ce072d5cc3c140eae896dfce0736/caseta.js#L46-L67">This snippet in particular</a> shows the types of messages that the homebridge-pico plugin expects to see and the way it responds to them. To simplify my investigation here, I added a local dns entry to point <span class="font-mono">caseta.run</span> at the caseta hub, and then I started to poke at it with <span class="font-mono">nc</span>.
+</p>
+
+{% highlight "shell" %}
+➜  ~ nc -vz caseta.run 23
+Connection to caseta.run port 23 [tcp/telnet] succeeded!
+{% endhighlight %}
+
+<p class="new-post-paragraph">
+Off to a good start so far! Let's try something more than just scanning for the open port.
+</p>
+
+{% highlight "shell" %}
+➜  ~ nc caseta.run 23
+login:
+{% endhighlight %}
+
+<p class="new-post-paragraph">
+Now it's asking us for input! Still promising, so let's pass it the input that it wants.
+</p>
+
+{% highlight "shell" %}
+➜  ~ nc caseta.run 23
+login: < redacted >
+password: < redacted >
+GNET>
+{% endhighlight %}
+
+<p class="new-post-paragraph">
+It looks like we've authenticated, and now we see a <span class="font-mono">GNET></span> message. So far, all of this lines up with what that snippet from <span class="font-mono">homebridge-pico</span> seems to expect. What do we see when we push a button on the remote?
+</p>
+
+{% highlight "shell" %}
+➜  ~ nc caseta.run 23
+login: < redacted >
+password: < redacted >
+GNET> ~DEVICE,2,2,3  # on button pressed here
+~DEVICE,2,2,4        # on button released here
+{% endhighlight %}
+
+<p class="new-post-paragraph">
+At this point, we've replicated the kinds of interactions that the homebridge plugin deals with. Using a few other snippets from the <span class="font-mono">homebridge-pico</span> source (like <a class="standard-link-styling" href="https://github.com/rnilssoncx/homebridge-pico/blob/9cecce29f2b6ce072d5cc3c140eae896dfce0736/caseta.js#L51-L53">this</a> and <a class="standard-link-styling" href="https://github.com/rnilssoncx/homebridge-pico/blob/9cecce29f2b6ce072d5cc3c140eae896dfce0736/accessory.js#L4-L8">this</a>), we can interpret the message here to mean:
+</p>
+
+
+<div class="md:ml-10 my-5 md:border-l-4 md:border-gray-400">
+  <ul class="font-mono md:ml-5 list-disc">
+    <li> for remote number two, the on button was pressed</li>
+    <li> for remote number two, the on button was released</li>
+  </ul>
+</div>
+
+<p class="new-post-paragraph">
+Trying a different button yielded a similar result:
+</p>
+
+{% highlight "shell" %}
+~DEVICE,2,4,3   # off button pressed here
+~DEVICE,2,4,4   # off button released here
+{% endhighlight %}
+
+<h2 class="text-2xl md:mt-4">Listening to the Messages</h2>
+<p class="new-post-paragraph">
+  Now that we understand the protocol and the messages it sends, we the information we need to build a client that hooks into the Caseta message broadcasts. This post is starting to get long, so I'll save the codec write up for a Part Two. But if you want to look ahead, <a class="standard-link-styling" href="https://github.com/dkulla01/caseta_codec">this is the project</a> we're going to work through. Stay tuned!
+</p>

@@ -1,6 +1,7 @@
 ---
   title: Building Rust for Raspbian
-  description: cross-rs takes the pain out of cross-compiling rust projects for different architectures, which makes it easy to run rust projects on a raspberry pi.
+  description: cross-rs takes the pain out of cross-compiling Rust projects for different architectures, which makes it easy to run Rust projects on a raspberry pi.
+  date: 2023-01-20
   tags:
     - raspberry pi
     - rust
@@ -21,12 +22,12 @@
   </div>
 </div>
 
-<p class="indent-8 md:mt-4">
-I've been teaching myself the rust programming language for a while. It is a fun language with powerful tools to enforce memory safety; the compiler will refuse to build your project if you try to give multiple parts of your project ownership of the same object. This paradigm is different from other languages I've worked with, which has forced me to think about programming in a new way.
+<p class="new-post-paragraph">
+I've been teaching myself the Rust programming language for a while. It is a fun language with powerful tools to enforce memory safety; the compiler will refuse to build your project if you try to give multiple parts of your project ownership of the same object. This paradigm is different from other languages I've worked with, which has forced me to think about programming in a new way.
 </p>
 
-<p class="indent-8 md:mt-4">
-Also new to me was the process of building the project to run on a machine with a different architecture. My laptop is MacBook with an x86-64 Intel CPU, while the Raspberry Pi I planned to run the project from has a 64-bit ARM CPU (earlier models have a 32-bit CPU). Using `cargo build --release` would build a binary that ran fine on my laptop, but was totally incompatible with the rpi, and targeting the ARM architecture with 
+<p class="new-post-paragraph">
+Also new to me was the process of building the project to run on a machine with a different architecture. My laptop is MacBook with an x86-64 Intel CPU, while the Raspberry Pi I planned to run the project from has a 64-bit ARM CPU (earlier models have a 32-bit CPU). Using <span class="font-mono">cargo build --release</span> would build a binary that ran fine on my laptop, but was totally incompatible with the rpi, and targeting the ARM architecture with 
 </p>
 
 {% highlight "shell" %}
@@ -34,18 +35,18 @@ cargo build --target aarch64-unknown-linux-gnu
 {% endhighlight%}
 
 <p>
-would fail because of incompatibilities between homebrew-installed OpenSSL on my mac and apt installed libssl-dev installed on the linux rpi.
+would fail because of incompatibilities between homebrew-installed OpenSSL on my mac and apt-installed libssl-dev installed on the linux rpi.
 </p>
-<p class="indent-8 md:mt-4">
-Enter <a class="underline md:hover:no-underline" href="https://github.com/cross-rs/cross"><span class="font-mono text-base">cross</span></a>, a project that cross-compiles rust projects between different architectures. Under the hood, cross uses docker images built with all of the libraries, dependencies, and missing pieces needed to cross compile rust projects. And since all of these components live in the docker images, they don't tangle anything up in your dev environment.
+<p class="new-post-paragraph">
+Enter <a class="standard-link-styling" href="https://github.com/cross-rs/cross"><span class="font-mono text-base">cross</span></a>, a project that cross-compiles Rust projects between different architectures. Under the hood, cross uses docker images built with all of the libraries, dependencies, and missing pieces needed to cross compile Rust projects. And since all of these components live in the docker images, they don't tangle anything up in your dev environment.
 </p>
 
-<p class="indent-8 md:mt-8">
-<a class="underline md:hover:no-underline" href="https://github.com/cross-rs/cross/wiki/Getting-Started"><span class="font-mono text-base">cross</span> has great documentation on getting started</a>, and once installed, cross compiling is as simple as invoking <span class="font-mono text-base">cross</span> where you'd normally use <span class="font-mono text-base">cargo</span>. Assuming you have docker and rust (and its toolchain) installed, all you need is:
+<p class="new-post-paragraph">
+<a class="standard-link-styling" href="https://github.com/cross-rs/cross/wiki/Getting-Started"><span class="font-mono text-base">cross</span> has great documentation on getting started</a>, and once installed, cross compiling is as simple as invoking <span class="font-mono text-base">cross</span> where you'd normally use <span class="font-mono text-base">cargo</span>. Assuming you have docker and Rust (and its toolchain) installed, all you need is:
 </p>
 
 {% highlight "shell" %}
-# create a new rust project
+# create a new Rust project
 cargo new myproject && cd myproject
 
 # install cross
@@ -66,9 +67,9 @@ ls myproject/target/aarch64-unknown-linux-gnu/release
 
 
 
-<h1 class="text-xl md:mb-8">Building a Docker Image</h1>
+<h1 class="text-xl md:mt-8 md:mb-8">Building a Docker Image</h1>
 
-<p>
+<p class="new-post-paragraph">
 With our cross-compiled binary in hand, building a docker image for our raspberry pi is straightforward.
 </p>
 
@@ -80,13 +81,17 @@ COPY ["target/aarch64-unknown-linux-gnu/release/myproject" "./"]
 CMD ["./myproject"]
 {% endhighlight %}
 
+<p>
 Next, build the image:
+</p>
 
 {% highlight "shell" %}
 docker build --platform linux/arm64/v8 -t myproject:mytag -f path/to/Dockerfile .
 {% endhighlight %}
 
-Finally, the image as a `tar` and copy it to your raspberry pi:
+<p>
+Finally, save the image as a <span class="font-mono">tar</span> and copy it to your raspberry pi:
+</p>
 
 {% highlight "shell" %}
 docker save myproject:mytag > myproject.tar
