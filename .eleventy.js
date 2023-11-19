@@ -33,12 +33,12 @@ module.exports = function(eleventyConfig) {
   let sslCertPath = process.env.SSL_CERT_PATH;
   if (sslKeyPath && sslCertPath) {
     console.log(`using ssl key at ${sslKeyPath} and ssl cert at ${sslCertPath}.`);
-    eleventyConfig.browserSyncConfig = {
+    eleventyConfig.setServerOptions({
       https: {
         key: sslKeyPath,
         cert: sslCertPath
       }
-    }
+    })
   }
 
   eleventyConfig.addTransform('htmlmin', function (content, outputPath) {
