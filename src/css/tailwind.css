@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../src/**/*.{njk,html,js}";
 
 @layer utilities {
   .change {
