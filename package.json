@@ -8,8 +8,8 @@
     "node": ">=17.0.0"
   },
   "scripts": {
-    "start": "DEBUG=Eleventy* eleventy --serve & npx tailwindcss -i src/css/tailwind.css -c src/css/tailwind.config.js -o public/css/style.css --watch",
-    "build": "DEBUG=Eleventy* ELEVENTY_PRODUCTION=true eleventy && NODE_ENV=production npx tailwindcss -i src/css/tailwind.css -c src/css/tailwind.config.js -o public/css/style.css --minify"
+    "start": "DEBUG=Eleventy* eleventy --serve & npx @tailwindcss/cli -i src/css/tailwind.css -o public/css/style.css --watch",
+    "build": "DEBUG=Eleventy* ELEVENTY_PRODUCTION=true eleventy && NODE_ENV=production npx @tailwindcss/cli -i src/css/tailwind.css -o public/css/style.css --minify"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "@11ty/eleventy": "^3.1.5",
     "@11ty/eleventy-img": "^6.0.4",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
+    "@tailwindcss/cli": "^4.2.2",
     "html-minifier-next": "^5.2.2",
     "tailwindcss": "^4.2.2"
   }
